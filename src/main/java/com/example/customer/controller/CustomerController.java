@@ -11,6 +11,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.UUID;
+
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/customer")
@@ -44,5 +46,11 @@ public class CustomerController {
                 token.replace("Bearer ", ""));
         return service.signup(request, tokenInfo);
     }
+
+    @GetMapping("{id}")
+    public Customer getById(@PathVariable String id){
+        return service.getById(UUID.fromString(id));
+    }
+
 
 }

@@ -41,8 +41,13 @@ public class CustomerService {
     }
 
     public Customer getMe(TokenInfo tokenInfo){
-        return  customerRepository.findById(tokenInfo.getId())
-                .orElseThrow(()-> new IllegalArgumentException("NOT EXIST"));
+        return getById(tokenInfo.getId());
+    }
+
+    public Customer getById(UUID id){
+        return customerRepository.findById(id)
+                .orElseThrow(
+                        ()->new IllegalArgumentException("NOT EXIST"));
     }
 
 
