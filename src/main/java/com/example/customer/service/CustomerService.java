@@ -24,21 +24,26 @@ public class CustomerService {
     public SignupResponse checkSignup(TokenInfo tokenInfo){
         Customer customer = getByToken(tokenInfo);
         return SignupResponse.builder()
-                .tokenInfo(tokenInfo)
+                .customer(customer)
                 .redirect(customer.getAddress()==null
                         ? "/signup" : "/main")
                 .build();
     }
+
     @Transactional
     public SignupResponse signup(SignupRequest request, TokenInfo tokenInfo){
         Customer customer = getByToken(tokenInfo);
         customer.setAddress(request.getAddress());
         return SignupResponse.builder()
-                .tokenInfo(tokenInfo)
+                .customer(customer)
                 .redirect("/main")
                 .build();
     }
 
+    public Customer getMe(TokenInfo tokenInfo){
+        return  customerRepository.findById(tokenInfo.getId())
+                .orElseThrow(()-> new IllegalArgumentException("NOT EXIST"));
+    }
 
 
 
